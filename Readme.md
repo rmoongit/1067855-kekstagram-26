@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Георгий Нарыжный](https://up.htmlacademy.ru/javascript/26/user/1067855).
-* Наставник: `Alex Elkin`.
+* Наставник: [Alex Elkin](https://htmlacademy.ru/profile/alex_elkin).
 
 ---
 
