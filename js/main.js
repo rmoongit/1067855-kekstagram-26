@@ -8,20 +8,20 @@ const randomInteger = (min, max) => {
   if (min >= 0 && max > min) {
     return Math.floor(random);
   }
+  throw new Error(`число не соответствует или ${max} больше ${min}`);
 };
+
+randomInteger(1, 100);
 
 randomInteger(1, 150);
 
 //проверка максимальной длины строки
-
-const checkStringLength = (string, maxLengthString = 140) => {
-  //проверка параметра "string" на строку
-  if (string.length <= maxLengthString) {
-    const checkString = string.length - maxLengthString;
-    return checkString;
-  } else {
-    throw new Error(`Число комментариев привышает ${maxLengthString} символов`);
+const checkStringLength = (string, lengthNumber = 140) => {
+  //проверка параметра "string" на 'строку' и её длинну(length).
+  if (typeof string !== 'string' || typeof lengthNumber === 'string') {
+    throw new Error('Строка не подходит по типу данных');
   }
+  return string.length <= lengthNumber;
 };
 
-checkStringLength('');
+(checkStringLength('check string'));
