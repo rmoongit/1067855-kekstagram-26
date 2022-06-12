@@ -34,10 +34,12 @@ const NAMES = ['Алексей', 'Иван', 'Георгий', 'Мария', 'Е
 const MESSAGE = ['Всё отлично!', 'В целом всё неплохо. Но не всё.'];
 const DESCRIPTION = ['Бывало и лучше', 'Не позавидуешь', 'И вам желаю так провести лето'];
 const photoId = Array.from({ length: MAX_NUMBER }, (_, index) => index + 1);
-const commentId = Array.from({ length: MAX_NUMBER }, (_, index) => index + 1);
 
+let uniqueId = 1;
+
+//Функция  возвращает объект со значениями комментария.
 const createComment = () => {
-  const id = commentId.shift();
+  const id = uniqueId++;
   return {
     id: id,
     avatar: `img/avatar-${randomInteger(1, 6)}.svg`,
@@ -46,6 +48,7 @@ const createComment = () => {
   };
 };
 
+//Функция возвращает объект с уникальным id и генерированными комментариями.
 const createObject = () => {
   const id = photoId.shift();
   return {
@@ -57,12 +60,14 @@ const createObject = () => {
   };
 };
 
+//Функция передаёт параметр(число) и записывает в каждый элемент массива наш Объект(createObject())
 const createPhoto = (countPhoto) => {
   const arr = [];
 
-  for (let i=1; i<=countPhoto; i++) {
+  for (let i = 0; i < countPhoto; i++) {
     arr[i] = createObject();
   }
   return arr;
 };
+
 createPhoto(25);
