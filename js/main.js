@@ -45,9 +45,8 @@ const createComment = () => {
     name: getArrayRandomElement(NAMES),
   };
 };
-createComment();
 
-const createPhoto = () => {
+const createObject = () => {
   const id = photoId.shift();
   return {
     id: id,
@@ -57,4 +56,13 @@ const createPhoto = () => {
     comments: Array.from({ length: randomInteger(1, 10) }, () => createComment()),
   };
 };
-createPhoto();
+
+const createPhoto = (countPhoto) => {
+  const arr = [];
+
+  for (let i=1; i<=countPhoto; i++) {
+    arr[i] = createObject();
+  }
+  return arr;
+};
+createPhoto(25);
