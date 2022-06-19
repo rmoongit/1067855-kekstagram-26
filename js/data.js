@@ -30,7 +30,7 @@ const createObject = () => {
   const id = photoId.shift();
   return {
     id: id,
-    url: `img/photos/${id}.jpg`,
+    url: `photos/${id}.jpg`,
     description: getArrayRandomElement(DESCRIPTION),
     likes: randomInteger(LIKES.min, LIKES.max),
     comments: Array.from({ length: randomInteger(1, 10) }, () => createComment()),
