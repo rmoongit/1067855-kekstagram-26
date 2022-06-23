@@ -19,9 +19,14 @@ const checkStringLength = (string, lengthNumber = 140) => {
 };
 checkStringLength('check string');
 
+//Генерирует случайный элемент массива.
 const getArrayRandomElement = (elements) => elements[randomInteger(0, elements.length - 1)];
+
+//Нажатие на кнопку "Escape".
+const escapeKey = (evt) => evt.key === 'Escape';
 
 export {
   getArrayRandomElement,
   randomInteger,
+  escapeKey,
 };
