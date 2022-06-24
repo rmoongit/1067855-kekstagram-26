@@ -2,12 +2,22 @@
 import { escapeKey } from './util.js';
 
 const bigPicture = document.querySelector('.big-picture');
+const closeButton = bigPicture.querySelector('.big-picture__cancel');
 
 //Добавляет класс на картинку и удаляет с модального окна.
 const closePopup = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', closePopupEsc);
+  closeButton.removeEventListener('click', closePopup);
 };
+
+function closePopupEsc (evt) {
+  if(escapeKey(evt)) {
+    evt.preventDefault();
+    closePopup();
+  }
+}
 
 //Создаёт элемент и передаёт параметр массива.
 const createElement = (commentsData) => {
@@ -43,7 +53,6 @@ const renderComments = (comments) => {
 //Показывает большое фото с переданным аргументом массива.
 const showBigPicture = (data) => {
   const {url, likes, comments, description} = data;
-  const closeButton = bigPicture.querySelector('.big-picture__cancel');
   document.body.classList.add('modal-open');
 
   bigPicture.querySelector('.big-picture__img img').src = url;
@@ -53,17 +62,12 @@ const showBigPicture = (data) => {
   bigPicture.querySelector('.social__comment-count').classList.add('hidden');
   bigPicture.querySelector('.comments-loader').classList.add('hidden');
   bigPicture.classList.remove('hidden');
+  bigPicture.focus();
 
-  closeButton.addEventListener('keydown', (evt) => {
-    if(escapeKey(evt)) {
-      evt.preventDefault();
-      closePopup();
-    }
-  }, {once: true});
+  document.addEventListener('keydown', closePopupEsc);
 
-  closeButton.addEventListener('click', () => {
-    closePopup();
-  }, {once: true});
+  closeButton.addEventListener('click', closePopup);
+
   renderComments(comments);
 };
 
