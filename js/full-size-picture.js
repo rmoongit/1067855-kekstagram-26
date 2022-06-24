@@ -3,22 +3,10 @@ import { escapeKey } from './util.js';
 
 const bigPicture = document.querySelector('.big-picture');
 
+//Добавляет класс на картинку и удаляет с модального окна.
 const closePopup = () => {
   bigPicture.classList.add('hidden');
-  document.removeEventListener('keydown', onPopupEscKeyDown);
-};
-
-const openPopup = () => {
-  bigPicture.classList.remove('hidden');
-  document.addEventListener('keydown', onPopupEscKeyDown);
-};
-
-//Удаляет События клика при закрытии окна.
-const onPopupEscKeyDown = (evt) => {
-  if (escapeKey(evt)) {
-    evt.preventDefault();
-    closePopup();
-  }
+  document.body.classList.remove('modal-open');
 };
 
 //Создаёт элемент и передаёт параметр массива.
@@ -66,14 +54,16 @@ const showBigPicture = (data) => {
   bigPicture.querySelector('.comments-loader').classList.add('hidden');
   bigPicture.classList.remove('hidden');
 
-  bigPicture.addEventListener('keydown', (evt) => {
-    evt.preventDefault();
-    openPopup();
-  });
+  closeButton.addEventListener('keydown', (evt) => {
+    if(escapeKey(evt)) {
+      evt.preventDefault();
+      closePopup();
+    }
+  }, {once: true});
 
   closeButton.addEventListener('click', () => {
     closePopup();
-  });
+  }, {once: true});
   renderComments(comments);
 };
 
