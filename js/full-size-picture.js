@@ -65,7 +65,6 @@ const showBigPicture = (data) => {
   bigPicture.focus();
 
   document.addEventListener('keydown', closePopupEsc);
-
   closeButton.addEventListener('click', closePopup);
 
   renderComments(comments);
