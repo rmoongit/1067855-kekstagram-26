@@ -1,5 +1,8 @@
+import { checkStringLength} from './util.js';
+
 const form = document.querySelector('.img-upload__form');
 const hashtagInput = document.querySelector('.text__hashtags');
+const commentArea = document.querySelector('.text__description');
 
 const STRING_LENGTH = 20;
 const MAX_HASHTAGS = 5;
@@ -52,13 +55,13 @@ pristine.addValidator(hashtagInput, checkHashTagCount, 'Хештегов мож�
 
 //Проверка на схожий хештег каждого элемента массива строк.
 const checkSimilarHashTag = (string) => {
-  const stringArr = string.split(' ');
-  if (stringArr) {
-    return new Set(string).size === string.length; //ИСПРАВИТЬ!
-  }
-  return false;
+  const stringArr = string.toLowerCase().split(' ');
+  return new Set(stringArr).size === stringArr.length;
 };
 pristine.addValidator(hashtagInput, checkSimilarHashTag, 'Один и тот же хэш-тег не может быть использован дважды;');
 
-// один и тот же хэш-тег не может быть использован дважды;
-// если фокус находится в поле ввода хэш-тега, нажатие на Esc не должно приводить к закрытию формы редактирования изображения.
+//Проверка длинны комментария.
+pristine.addValidator(commentArea, checkStringLength, 'Комментарий не должен привышать 140 символов');
+
+export {commentArea, hashtagInput};
+

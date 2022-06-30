@@ -1,4 +1,5 @@
-import { escapeKey } from './util.js';
+import { escapeKey, stopListener } from './util.js';
+import {hashtagInput, commentArea} from './validate-form.js';
 
 const file = document.querySelector('#upload-file');
 
@@ -13,6 +14,8 @@ const closePopup = () => {
 };
 
 file.addEventListener('change', (evt) => {
+  stopListener(hashtagInput, commentArea);
+
   if(evt.target.value) {
     img.classList.remove('hidden');
     document.body.classList.add('modal-open');

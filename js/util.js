@@ -25,8 +25,19 @@ const getArrayRandomElement = (elements) => elements[randomInteger(0, elements.l
 //Нажатие на кнопку "Escape".
 const escapeKey = (evt) => evt.key === 'Escape';
 
+const stopListener = (inputArea, commentArea) => {
+  inputArea.addEventListener('keydown', (evt) => {
+    evt.stopPropagation();
+  });
+  commentArea.addEventListener('keydown', (evt) => {
+    evt.stopPropagation();
+  });
+};
+
 export {
   getArrayRandomElement,
   randomInteger,
   escapeKey,
+  checkStringLength,
+  stopListener
 };
