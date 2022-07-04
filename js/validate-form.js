@@ -19,8 +19,9 @@ const pristine = new Pristine(form, {
 
 //Отправка формы по дефолту.
 form.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  pristine.validate();
+  if (!pristine.validate()) {
+    evt.preventDefault();
+  }
 });
 
 //Проверка на валидность регулярного выражения строки.
