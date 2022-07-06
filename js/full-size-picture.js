@@ -4,16 +4,18 @@ import { escapeKey } from './util.js';
 const MAX_COMMENTS = 5;
 
 const commentsList = document.querySelector('.social__comments');
+const textCountComment = document.querySelector('.social__comment-count');
 const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const buttonLoadMore = document.querySelector('.comments-loader');
 
-//Добавляет класс на картинку и удаляет с модального окна.
+//Добавляет класс на картинку и удаляет с модального окна, так же удаляет слушатели.
 const closePopup = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', closePopupEsc);
   closeButton.removeEventListener('click', closePopup);
+  buttonLoadMore.removeEventListener('click', onClickAddComments);
 };
 
 function closePopupEsc (evt) {
@@ -48,9 +50,10 @@ const renderComments = (comments) => {
   comments.forEach ((comment) => {
     const createComment = createElement(comment);
     commentsList.append(createComment);
+
+    textCountComment.querySelector('#of').textContent = `${commentsList.children.length } из `;
   });
 };
-
 
 //Генерирует новую копию и разбивает на 5.
 const newRenderComments = (comments) => {
@@ -58,24 +61,23 @@ const newRenderComments = (comments) => {
   commentsList.innerHTML = '';
 
   if(copyComments.length <= MAX_COMMENTS) {
-
     buttonLoadMore.classList.add('hidden');
     renderComments(copyComments);
 
   } else {
     buttonLoadMore.classList.remove('hidden');
-    renderComments(comments);
+    renderComments(copyComments.splice(0, MAX_COMMENTS));
 
-    buttonLoadMore.addEventListener('click', () => {
-      const newComments = copyComments.splice(0, MAX_COMMENTS);
-      renderComments(newComments);
-
-      if (newComments.length === 0) {
-        buttonLoadMore.classList.add('hidden');
-      }
-    });
+    buttonLoadMore.addEventListener('click', () => onClickAddComments(copyComments));
   }
 };
+
+function onClickAddComments (copyComments) {
+  if (copyComments.length <= MAX_COMMENTS) {
+    buttonLoadMore.classList.add('hidden');
+  }
+  renderComments(copyComments.splice(0,MAX_COMMENTS));
+}
 
 
 //Показывает большое фото с переданным аргументом массива.

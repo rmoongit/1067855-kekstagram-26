@@ -18,11 +18,13 @@ const pristine = new Pristine(form, {
 });
 
 //Отправка формы по дефолту.
-form.addEventListener('submit', (evt) => {
-  if (!pristine.validate()) {
-    evt.preventDefault();
-  }
-});
+const checkPristine = () => {
+  form.addEventListener('submit', (evt) => {
+    if (!pristine.validate()) {
+      evt.preventDefault();
+    }
+  });
+};
 
 //Проверка на валидность регулярного выражения строки.
 const checkHashtagRegExp = (string) => regular.test(string);
@@ -64,5 +66,5 @@ pristine.addValidator(hashtagInput, checkSimilarHashTag, 'Один и тот ж�
 //Проверка длинны комментария.
 pristine.addValidator(commentArea, checkStringLength, 'Комментарий не должен привышать 140 символов');
 
-export {commentArea, hashtagInput};
+export {commentArea, hashtagInput, checkPristine};
 

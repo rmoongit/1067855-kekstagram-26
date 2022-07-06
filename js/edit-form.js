@@ -11,19 +11,24 @@ const closePopup = () => {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', closePopupEsc);
   closeButton.removeEventListener('click', closePopup);
+  file.value = '';
+  hashtagInput.value = '';
+  commentArea.value = '';
 };
 
-file.addEventListener('change', (evt) => {
-  stopListener(hashtagInput, commentArea);
+const uploadPhotosModal = () => {
+  file.addEventListener('change', (evt) => {
+    stopListener(hashtagInput, commentArea);
 
-  if(evt.target.value) {
-    img.classList.remove('hidden');
-    document.body.classList.add('modal-open');
+    if(evt.target.value) {
+      img.classList.remove('hidden');
+      document.body.classList.add('modal-open');
 
-    closeButton.addEventListener('click', closePopup);
-    document.addEventListener('keydown', closePopupEsc);
-  }
-});
+      closeButton.addEventListener('click', closePopup);
+      document.addEventListener('keydown', closePopupEsc);
+    }
+  });
+};
 
 
 function closePopupEsc (evt) {
@@ -31,5 +36,7 @@ function closePopupEsc (evt) {
     closePopup();
   }
 }
+
+export {uploadPhotosModal};
 
 
