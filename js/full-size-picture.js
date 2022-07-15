@@ -9,7 +9,7 @@ const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const buttonLoadMore = document.querySelector('.comments-loader');
 
-//Добавляет класс на картинку и удаляет с модального окна, так же удаляет слушатели.
+//Прячет модальное окно и убирает фиксацию с body, так же удаляет слушатели.
 const closePopup = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
