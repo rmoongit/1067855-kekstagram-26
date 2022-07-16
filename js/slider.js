@@ -87,45 +87,59 @@ const intensiveEffect = () => {
   effectsBlockSlider.noUiSlider.on('update', () => {
     sliderValue.value = effectsBlockSlider.noUiSlider.get();
 
-    if (imgUploadPreview.classList.contains('effects__preview--chrome')) {
-      imgUploadPreview.style.filter = `grayscale(${sliderValue.value})`;
-    }
+    const effectsClass = imgUploadPreview.className;
 
-    if (imgUploadPreview.classList.contains('effects__preview--sepia')) {
-      imgUploadPreview.style.filter = `sepia(${sliderValue.value})`;
-    }
+    switch (effectsClass) {
 
-    if (imgUploadPreview.classList.contains('effects__preview--marvin')) {
-      imgUploadPreview.style.filter = `invert(${sliderValue.value}%)`;
-    }
+      case 'effects__preview--chrome':
+        imgUploadPreview.style.filter = `grayscale(${sliderValue.value})`;
+        effectsBlockSlider.classList.remove('visually-hidden');
+        break;
 
-    if (imgUploadPreview.classList.contains('effects__preview--phobos')) {
-      imgUploadPreview.style.filter = `blur(${sliderValue.value}px)`;
-    }
+      case 'effects__preview--sepia':
+        imgUploadPreview.style.filter = `sepia(${sliderValue.value})`;
+        effectsBlockSlider.classList.remove('visually-hidden');
+        break;
 
-    if (imgUploadPreview.classList.contains('effects__preview--heat')) {
-      imgUploadPreview.style.filter = `brightness(${sliderValue.value})`;
-    }
+      case 'effects__preview--marvin':
+        imgUploadPreview.style.filter = `invert(${sliderValue.value}%)`;
+        effectsBlockSlider.classList.remove('visually-hidden');
+        break;
 
+      case 'effects__preview--phobos':
+        imgUploadPreview.style.filter = `blur(${sliderValue.value}px)`;
+        effectsBlockSlider.classList.remove('visually-hidden');
+        break;
+
+      case 'effects__preview--heat':
+        imgUploadPreview.style.filter = `brightness(${sliderValue.value})`;
+        effectsBlockSlider.classList.remove('visually-hidden');
+        break;
+
+      default:
+        imgUploadPreview.className = 'effects__preview--none';
+        imgUploadPreview.style.filter = 'none';
+        effectsBlockSlider.classList.add('visually-hidden');
+    }
   });
 };
 
 //Применяет фильтра с параметрами объектов по нажатию на фильтр (radio-button)
 const onChangeEffect = () => {
+
   effectsRadio.forEach((filter) => {
     const {chrome, sepia, marvin, phobos, heat} = effects;
 
-    filter.addEventListener('change', () => {
+    filter.addEventListener('click', () => {
+
       if(filter.matches('#effect-none') && filter.checked) {
-        imgUploadPreview.classList = '';
-        imgUploadPreview.style.filter = '';
+        imgUploadPreview.className = 'effects__preview--none';
+        imgUploadPreview.style.filter = 'none';
         effectsBlockSlider.classList.add('visually-hidden');
       }
 
       if(filter.matches('#effect-chrome')) {
         imgUploadPreview.className = `effects__preview--${chrome.effect}`;
-        effectsBlockSlider.classList.remove('visually-hidden');
-
         effectsBlockSlider.noUiSlider.updateOptions({
           range: {
             min: chrome.range.min,
@@ -138,8 +152,6 @@ const onChangeEffect = () => {
 
       if (filter.matches('#effect-sepia')) {
         imgUploadPreview.className = `effects__preview--${sepia.effect}`;
-        effectsBlockSlider.classList.remove('visually-hidden');
-
         effectsBlockSlider.noUiSlider.updateOptions({
           range: {
             min: sepia.range.min,
@@ -152,8 +164,6 @@ const onChangeEffect = () => {
 
       if (filter.matches('#effect-marvin')) {
         imgUploadPreview.className = `effects__preview--${marvin.effect}`;
-        effectsBlockSlider.classList.remove('visually-hidden');
-
         effectsBlockSlider.noUiSlider.updateOptions({
           range: {
             min: marvin.range.min,
@@ -166,8 +176,6 @@ const onChangeEffect = () => {
 
       if (filter.matches('#effect-phobos')) {
         imgUploadPreview.className = `effects__preview--${phobos.effect}`;
-        effectsBlockSlider.classList.remove('visually-hidden');
-
         effectsBlockSlider.noUiSlider.updateOptions({
           range: {
             min: phobos.range.min,
@@ -180,8 +188,6 @@ const onChangeEffect = () => {
 
       if (filter.matches('#effect-heat')) {
         imgUploadPreview.className = `effects__preview--${heat.effect}`;
-        effectsBlockSlider.classList.remove('visually-hidden');
-
         effectsBlockSlider.noUiSlider.updateOptions({
           range: {
             min: heat.range.min,
@@ -196,6 +202,6 @@ const onChangeEffect = () => {
   });
 };
 
-export {onChangeEffect};
+export {onChangeEffect, imgUploadPreview};
 
 
