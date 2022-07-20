@@ -1,14 +1,16 @@
-import {createPhoto} from './data.js';
 import { generatePhotos } from './gallery.js';
-import  {checkPristine} from './validate-form.js';
+import  { setUserFormSubmit } from './validate-form.js';
 import { uploadPhotosModal } from './edit-form.js';
+import {getDataServer} from './api.js';
+import './success-error-mesages.js';
 
-//Принимает нужное кол-во фотографий и возвращает массив с фотографиями- указанной длины.
-const photo = createPhoto(25);
-generatePhotos(photo);
-
-//Проверяет валидацию формы.
-checkPristine();
+//Проверяет валидацию формы и отправляет её.
+setUserFormSubmit();
 
 //Появления окна редактирования при выборе фото.
 uploadPhotosModal();
+
+//Генерирует с сервера Объекты(фото, комментарии).
+getDataServer((photos) => {
+  generatePhotos(photos);
+});
