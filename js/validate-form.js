@@ -41,7 +41,7 @@ const setUserFormSubmit = () => {
     if (pristine.validate()) {
       blockSubmitButton();
       onSuccessForm();
-      sendDataServer(formData, closePopup, unblockSubmitButton);
+      sendDataServer(formData, closePopup, unblockSubmitButton, closePopup);
 
     } else {
       onErrorForm(closePopup);
