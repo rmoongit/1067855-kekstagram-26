@@ -1,6 +1,10 @@
 import { checkStringLength} from './util.js';
+import { sendDataServer } from './api.js';
+import { closePopup } from './edit-form.js';
+import { onSuccessForm, onErrorForm } from './success-error-mesages.js';
 
 const form = document.querySelector('.img-upload__form');
+const formButton = document.querySelector('.img-upload__submit');
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentArea = document.querySelector('.text__description');
 
@@ -17,11 +21,30 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__text-error-text',
 });
 
-//Отправка формы по дефолту.
-const checkPristine = () => {
+const blockSubmitButton = () => {
+  formButton.disabled = true;
+  formButton.textContent = 'Опубликовываю...';
+};
+
+const unblockSubmitButton = () => {
+  formButton.disabled = false;
+  formButton.textContent = 'Опубликовать';
+};
+
+//Отправка формы по дефолту и проверками на ошибки сервера.
+const setUserFormSubmit = () => {
+
   form.addEventListener('submit', (evt) => {
-    if (!pristine.validate()) {
-      evt.preventDefault();
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+
+    if (pristine.validate()) {
+      blockSubmitButton();
+      onSuccessForm();
+      sendDataServer(formData, closePopup, unblockSubmitButton, closePopup);
+
+    } else {
+      onErrorForm(closePopup);
     }
   });
 };
@@ -66,5 +89,5 @@ pristine.addValidator(hashtagInput, checkSimilarHashTag, 'Один и тот ж�
 //Проверка длинны комментария.
 pristine.addValidator(commentArea, checkStringLength, 'Комментарий не должен привышать 140 символов');
 
-export {commentArea, hashtagInput, checkPristine};
+export {commentArea, hashtagInput, setUserFormSubmit};
 

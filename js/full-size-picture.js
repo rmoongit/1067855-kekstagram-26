@@ -9,13 +9,15 @@ const bigPicture = document.querySelector('.big-picture');
 const closeButton = bigPicture.querySelector('.big-picture__cancel');
 const buttonLoadMore = document.querySelector('.comments-loader');
 
+let commentsHandler = null;
+
 //Прячет модальное окно и убирает фиксацию с body, так же удаляет слушатели.
 const closePopup = () => {
   bigPicture.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', closePopupEsc);
   closeButton.removeEventListener('click', closePopup);
-  buttonLoadMore.removeEventListener('click', onClickAddComments);
+  buttonLoadMore.removeEventListener('click', commentsHandler);
 };
 
 function closePopupEsc (evt) {
@@ -60,6 +62,12 @@ const newRenderComments = (comments) => {
   const copyComments = comments.slice();
   commentsList.innerHTML = '';
 
+  const onClickCommentsHandler = () => {
+    addComments(copyComments);
+  };
+
+  commentsHandler = onClickCommentsHandler;
+
   if(copyComments.length <= MAX_COMMENTS) {
     buttonLoadMore.classList.add('hidden');
     renderComments(copyComments);
@@ -68,11 +76,12 @@ const newRenderComments = (comments) => {
     buttonLoadMore.classList.remove('hidden');
     renderComments(copyComments.splice(0, MAX_COMMENTS));
 
-    buttonLoadMore.addEventListener('click', () => onClickAddComments(copyComments));
+    buttonLoadMore.addEventListener('click', commentsHandler);
   }
 };
 
-function onClickAddComments (copyComments) {
+//Добавляет новые комментарии
+function addComments (copyComments) {
   if (copyComments.length <= MAX_COMMENTS) {
     buttonLoadMore.classList.add('hidden');
   }
