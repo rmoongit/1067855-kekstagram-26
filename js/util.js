@@ -7,7 +7,20 @@ const randomInteger = (min, max) => {
   }
   throw new Error(`число не соответствует или ${max} больше ${min}`);
 };
-randomInteger(1, 100);
+
+const getRandomArrayUniqueNumbers = (length) => {
+  const numbers = [];
+  for (let i = 0; i < length; i++) {
+    numbers[i] = i;
+  }
+  for (let i = length - 1; i > 0; i--) {
+    const j = randomInteger(0, i);
+    const swap = numbers[j];
+    numbers[j] = numbers[i];
+    numbers[i] = swap;
+  }
+  return numbers;
+};
 
 //проверка максимальной длины строки
 const checkStringLength = (string, lengthNumber = 140) => {
@@ -20,7 +33,7 @@ const checkStringLength = (string, lengthNumber = 140) => {
 checkStringLength('check string');
 
 //Генерирует случайный элемент массива.
-const getArrayRandomElement = (elements) => elements[randomInteger(0, elements.length - 1)];
+// const getArrayRandomElement = (elements) => elements[randomInteger(0, elements.length - 1)];
 
 //Нажатие на кнопку "Escape".
 const escapeKey = (evt) => evt.key === 'Escape';
@@ -32,6 +45,26 @@ const stopListener = (inputArea, commentArea) => {
   commentArea.addEventListener('keydown', (evt) => {
     evt.stopPropagation();
   });
+};
+
+//Устранение дребезга
+// Источник - https://www.freecodecamp.org/news/javascript-debounce-example
+const debounce = (callback, timeoutDelay = 500) => {
+// Используем замыкания, чтобы id таймаута у нас навсегда приклеился
+  // к возвращаемой функции с setTimeout, тогда мы его сможем перезаписывать
+  let timeoutId;
+
+  return (...rest) => {
+    // Перед каждым новым вызовом удаляем предыдущий таймаут,
+    // чтобы они не накапливались
+    clearTimeout(timeoutId);
+
+    // Затем устанавливаем новый таймаут с вызовом колбэка на ту же задержку
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+
+    // Таким образом цикл «поставить таймаут - удалить таймаут» будет выполняться,
+    // пока действие совершается чаще, чем переданная задержка timeoutDelay
+  };
 };
 
 //Создаёт блок который выводит ошибку(error)
@@ -62,10 +95,11 @@ const showMessageError = (message) => {
 };
 
 export {
-  getArrayRandomElement,
+  getRandomArrayUniqueNumbers,
   randomInteger,
   escapeKey,
   checkStringLength,
   stopListener,
-  showMessageError
+  showMessageError,
+  debounce
 };

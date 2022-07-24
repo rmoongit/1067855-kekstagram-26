@@ -3,12 +3,15 @@ import {hashtagInput, commentArea,} from './validate-form.js';
 import {addScalingClick, removeScalingClick, scaleDefault} from './photo-zoom.js';
 import { onChangeEffect, imgUploadPreview} from './slider.js';
 
-const file = document.querySelector('#upload-file');
+const fileChooser = document.querySelector('#upload-file');
 const img = document.querySelector('.img-upload__overlay');
+const imgPreview = document.querySelector('.img-upload__preview img');
 const closeButton = img.querySelector('#upload-cancel');
 
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+
 const resetForm = () => {
-  file.value = '';
+  fileChooser.value = '';
   hashtagInput.value = '';
   commentArea.value = '';
   imgUploadPreview.style.filter = 'none';
@@ -32,15 +35,20 @@ function closePopupEsc (evt) {
 }
 
 const uploadPhotosModal = () => {
-  file.addEventListener('change', (evt) => {
+  fileChooser.addEventListener('change', () => {
+    const file = fileChooser.files[0];
+    const fileName = file.name.toLowerCase();
+    const fileNameMatches = FILE_TYPES.some((element) => fileName.endsWith(element));
 
-    if(evt.target.value) {
+    if(fileNameMatches) {
+      imgPreview.src = URL.createObjectURL(file);
       img.classList.remove('hidden');
       document.body.classList.add('modal-open');
 
       closeButton.addEventListener('click', closePopup);
       document.addEventListener('keydown', closePopupEsc);
     }
+
     stopListener(hashtagInput, commentArea);
     scaleDefault();
     addScalingClick();
