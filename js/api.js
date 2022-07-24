@@ -33,7 +33,7 @@ const sendDataServer = (body, success, unblock, error) => {
       }
 
     })
-    .catch(() => onErrorForm());
+    .catch(() => onErrorForm(error));
 };
 
 export {getDataServer, sendDataServer};
