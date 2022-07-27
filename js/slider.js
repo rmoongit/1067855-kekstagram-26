@@ -1,10 +1,10 @@
-const imgUploadPreview = document.querySelector('.img-upload__preview img');
+const imgUploadPreviewElement = document.querySelector('.img-upload__preview img');
 //effects
-const sliderValue = document.querySelector('.effect-level__value');
-const effectsRadio = document.querySelectorAll('.effects__radio');
+const sliderValueElement = document.querySelector('.effect-level__value');
+const buttonsEffectElement= document.querySelectorAll('.effects__radio');
 //slider
-const effectsBlock = document.querySelector('.img-upload__effect-level');
-const effectsBlockSlider = document.querySelector('.effect-level__slider');
+const blockEffectsElement = document.querySelector('.img-upload__effect-level');
+const blockSliderElement = document.querySelector('.effect-level__slider');
 
 //Объект эффектов.
 const effects = {
@@ -62,7 +62,7 @@ const effects = {
 };
 
 //Создаёт сладйер со значениями 0-100 и заполняимостью от меньшего.
-noUiSlider.create(effectsBlockSlider, {
+noUiSlider.create(blockSliderElement, {
   range: {
     min: 0,
     max: 100,
@@ -84,42 +84,42 @@ noUiSlider.create(effectsBlockSlider, {
 
 //Получить данные фильтра по value
 const getSliderEffect = () => {
-  effectsBlockSlider.noUiSlider.on('update', () => {
-    sliderValue.value = effectsBlockSlider.noUiSlider.get();
+  blockSliderElement.noUiSlider.on('update', () => {
+    sliderValueElement.value = blockSliderElement.noUiSlider.get();
 
-    const effectsClass = imgUploadPreview.className;
+    const effectsClass = imgUploadPreviewElement.className;
 
     switch (effectsClass) {
 
       case 'effects__preview--chrome':
-        imgUploadPreview.style.filter = `grayscale(${sliderValue.value})`;
-        effectsBlock.classList.remove('hidden');
+        imgUploadPreviewElement.style.filter = `grayscale(${sliderValueElement.value})`;
+        blockEffectsElement.classList.remove('hidden');
         break;
 
       case 'effects__preview--sepia':
-        imgUploadPreview.style.filter = `sepia(${sliderValue.value})`;
-        effectsBlock.classList.remove('hidden');
+        imgUploadPreviewElement.style.filter = `sepia(${sliderValueElement.value})`;
+        blockEffectsElement.classList.remove('hidden');
         break;
 
       case 'effects__preview--marvin':
-        imgUploadPreview.style.filter = `invert(${sliderValue.value}%)`;
-        effectsBlock.classList.remove('hidden');
+        imgUploadPreviewElement.style.filter = `invert(${sliderValueElement.value}%)`;
+        blockEffectsElement.classList.remove('hidden');
         break;
 
       case 'effects__preview--phobos':
-        imgUploadPreview.style.filter = `blur(${sliderValue.value}px)`;
-        effectsBlock.classList.remove('hidden');
+        imgUploadPreviewElement.style.filter = `blur(${sliderValueElement.value}px)`;
+        blockEffectsElement.classList.remove('hidden');
         break;
 
       case 'effects__preview--heat':
-        imgUploadPreview.style.filter = `brightness(${sliderValue.value})`;
-        effectsBlock.classList.remove('hidden');
+        imgUploadPreviewElement.style.filter = `brightness(${sliderValueElement.value})`;
+        blockEffectsElement.classList.remove('hidden');
         break;
 
       default:
-        imgUploadPreview.className = 'effects__preview--none';
-        imgUploadPreview.style.filter = 'none';
-        effectsBlock.classList.add('hidden');
+        imgUploadPreviewElement.className = 'effects__preview--none';
+        imgUploadPreviewElement.style.filter = 'none';
+        blockEffectsElement.classList.add('hidden');
     }
   });
 };
@@ -127,20 +127,20 @@ const getSliderEffect = () => {
 //Применяет фильтра с параметрами объектов по нажатию на фильтр (radio-button)
 const onChangeEffect = () => {
 
-  effectsRadio.forEach((filter) => {
+  buttonsEffectElement.forEach((filter) => {
     const {chrome, sepia, marvin, phobos, heat} = effects;
 
     filter.addEventListener('click', () => {
 
       if(filter.matches('#effect-none') && filter.checked) {
-        imgUploadPreview.className = 'effects__preview--none';
-        imgUploadPreview.style.filter = 'none';
-        effectsBlock.classList.add('hidden');
+        imgUploadPreviewElement.className = 'effects__preview--none';
+        imgUploadPreviewElement.style.filter = 'none';
+        blockEffectsElement.classList.add('hidden');
       }
 
       if(filter.matches('#effect-chrome')) {
-        imgUploadPreview.className = `effects__preview--${chrome.effect}`;
-        effectsBlockSlider.noUiSlider.updateOptions({
+        imgUploadPreviewElement.className = `effects__preview--${chrome.effect}`;
+        blockSliderElement.noUiSlider.updateOptions({
           range: {
             min: chrome.range.min,
             max: chrome.range.max,
@@ -151,8 +151,8 @@ const onChangeEffect = () => {
       }
 
       if (filter.matches('#effect-sepia')) {
-        imgUploadPreview.className = `effects__preview--${sepia.effect}`;
-        effectsBlockSlider.noUiSlider.updateOptions({
+        imgUploadPreviewElement.className = `effects__preview--${sepia.effect}`;
+        blockSliderElement.noUiSlider.updateOptions({
           range: {
             min: sepia.range.min,
             max: sepia.range.max,
@@ -163,8 +163,8 @@ const onChangeEffect = () => {
       }
 
       if (filter.matches('#effect-marvin')) {
-        imgUploadPreview.className = `effects__preview--${marvin.effect}`;
-        effectsBlockSlider.noUiSlider.updateOptions({
+        imgUploadPreviewElement.className = `effects__preview--${marvin.effect}`;
+        blockSliderElement.noUiSlider.updateOptions({
           range: {
             min: marvin.range.min,
             max: marvin.range.max,
@@ -175,8 +175,8 @@ const onChangeEffect = () => {
       }
 
       if (filter.matches('#effect-phobos')) {
-        imgUploadPreview.className = `effects__preview--${phobos.effect}`;
-        effectsBlockSlider.noUiSlider.updateOptions({
+        imgUploadPreviewElement.className = `effects__preview--${phobos.effect}`;
+        blockSliderElement.noUiSlider.updateOptions({
           range: {
             min: phobos.range.min,
             max: phobos.range.max,
@@ -187,8 +187,8 @@ const onChangeEffect = () => {
       }
 
       if (filter.matches('#effect-heat')) {
-        imgUploadPreview.className = `effects__preview--${heat.effect}`;
-        effectsBlockSlider.noUiSlider.updateOptions({
+        imgUploadPreviewElement.className = `effects__preview--${heat.effect}`;
+        blockSliderElement.noUiSlider.updateOptions({
           range: {
             min: heat.range.min,
             max: heat.range.max,
@@ -202,6 +202,6 @@ const onChangeEffect = () => {
   });
 };
 
-export {onChangeEffect, imgUploadPreview};
+export {onChangeEffect, imgUploadPreviewElement};
 
 

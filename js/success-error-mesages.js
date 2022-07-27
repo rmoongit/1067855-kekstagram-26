@@ -2,8 +2,8 @@ import { onClickEscapeKey } from './util.js';
 import { onFormClickEsc } from './edit-form.js';
 
 const bodyElement = document.querySelector('body');
-const templateSuccess = document.querySelector('#success').content;
-const templateError = document.querySelector('#error').content;
+const successBlockElement = document.querySelector('#success').content;
+const errorBlockElement = document.querySelector('#error').content;
 
 //Закрите по кнопке 'Esc'.
 const onErrorClickEsc = (evt) => {
@@ -37,7 +37,7 @@ const onAreaWindowClose = (evt) => {
 
 //Показывает окно успешной отправки.
 const onSuccessForm = () => {
-  const cloneSuccess = templateSuccess.cloneNode(true);
+  const cloneSuccess = successBlockElement.cloneNode(true);
   const successButton = cloneSuccess.querySelector('.success__button');
   bodyElement.append(cloneSuccess);
 
@@ -48,7 +48,7 @@ const onSuccessForm = () => {
 
 //Показывает окно ошибочной отправки.
 const onErrorForm = (unblock) => {
-  const cloneError = templateError.cloneNode(true);
+  const cloneError = errorBlockElement.cloneNode(true);
   const errorButton = cloneError.querySelector('.error__button');
   bodyElement.append(cloneError);
   unblock();
