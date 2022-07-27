@@ -1,7 +1,7 @@
 import { onClickEscapeKey, stopListener } from './util.js';
-import {hashtagInput, commentArea,} from './validate-form.js';
+import {formInputElement, formCommentElement,} from './validate-form.js';
 import {onScalePlusClick, onScaleRemoveClick, getScaleDefault} from './photo-zoom.js';
-import { onChangeEffect, imgUploadPreview} from './slider.js';
+import { onChangeEffect, imgUploadPreviewElement} from './slider.js';
 
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
@@ -12,10 +12,10 @@ const closeImgButtonElement = imgElement.querySelector('#upload-cancel');
 
 const resetForm = () => {
   fileChooserElement.value = '';
-  hashtagInput.value = '';
-  commentArea.value = '';
-  imgUploadPreview.style.filter = 'none';
-  imgUploadPreview.className = 'effects__preview--none';
+  formInputElement.value = '';
+  formCommentElement.value = '';
+  imgUploadPreviewElement.style.filter = 'none';
+  imgUploadPreviewElement.className = 'effects__preview--none';
 };
 
 const closeForm = () => {
@@ -49,7 +49,7 @@ const uploadPhotosModal = () => {
       document.addEventListener('keydown', onFormClickEsc);
     }
 
-    stopListener(hashtagInput, commentArea);
+    stopListener(formInputElement, formCommentElement);
     getScaleDefault();
     onScalePlusClick();
     onChangeEffect();
