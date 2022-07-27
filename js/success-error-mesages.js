@@ -1,12 +1,13 @@
-import { escapeKey } from './util.js';
+import { onClickEscapeKey } from './util.js';
+import { onFormClickEsc } from './edit-form.js';
 
 const bodyElement = document.querySelector('body');
 const templateSuccess = document.querySelector('#success').content;
 const templateError = document.querySelector('#error').content;
 
 //Закрите по кнопке 'Esc'.
-const onCloseEsc = (evt) => {
-  if(escapeKey(evt)) {
+const onErrorClickEsc = (evt) => {
+  if(onClickEscapeKey(evt)) {
     evt.preventDefault();
     closeWarningWindow();
   }
@@ -24,9 +25,10 @@ function closeWarningWindow () {
   if (errorSection) {
     errorSection.remove();
   }
+  document.addEventListener('keydown', onFormClickEsc);
 }
 
-const onClickAreaCloseWindow = (evt) => {
+const onAreaWindowClose = (evt) => {
   if (evt.target.closest('section')) {
     closeWarningWindow();
   }
@@ -39,21 +41,22 @@ const onSuccessForm = () => {
   const successButton = cloneSuccess.querySelector('.success__button');
   bodyElement.append(cloneSuccess);
 
-  document.addEventListener('click', onClickAreaCloseWindow);
-  document.addEventListener('keydown', onCloseEsc);
+  document.addEventListener('click', onAreaWindowClose);
+  document.addEventListener('keydown', onErrorClickEsc);
   successButton.addEventListener('click', closeWarningWindow);
 };
 
 //Показывает окно ошибочной отправки.
-const onErrorForm = (close) => {
+const onErrorForm = (unblock) => {
   const cloneError = templateError.cloneNode(true);
   const errorButton = cloneError.querySelector('.error__button');
   bodyElement.append(cloneError);
-  close();
+  unblock();
 
-  document.addEventListener('click', onClickAreaCloseWindow);
-  document.addEventListener('keydown', onCloseEsc);
+  document.addEventListener('click', onAreaWindowClose);
+  document.addEventListener('keydown', onErrorClickEsc);
   errorButton.addEventListener('click', closeWarningWindow);
+  document.removeEventListener('keydown', onFormClickEsc);
 };
 
 export {

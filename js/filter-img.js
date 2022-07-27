@@ -1,38 +1,39 @@
 import { generatePhotos } from './gallery.js';
 import { getRandomArrayUniqueNumbers, debounce } from './util.js';
 
-const formFilterElement = document.querySelector('.img-filters__form');
-const imgFilters = document.querySelector('.img-filters');
-const buttonDefault = document.querySelector('#filter-default');
-const buttonRandoms = document.querySelector('#filter-random');
-const buttonDiscussed = document.querySelector('#filter-discussed');
+const formFiltersElement = document.querySelector('.img-filters__form');
+const imgFiltersElement = document.querySelector('.img-filters');
+const buttonDefaultElement = document.querySelector('#filter-default');
+const buttonRandomsElement = document.querySelector('#filter-random');
+const buttonDiscussedElement = document.querySelector('#filter-discussed');
 
-imgFilters.classList.remove('img-filters--inactive');
+imgFiltersElement.classList.remove('img-filters--inactive');
 
-let currentFilter = buttonDefault;
+let currentFilter = buttonDefaultElement;
 
 //Получает рандомные фотографии
-function getRandomPictures (photos) {
+const getRandomPictures = (photos) => {
   const randomUniqueNumbers = getRandomArrayUniqueNumbers(photos.length);
   const randomPictures = [];
   randomUniqueNumbers.slice(0, 10).forEach((randomNumber) => {
     randomPictures.push(photos[randomNumber]);
   });
   return randomPictures;
-}
+};
 //Сравнивает количество комментариев между собой и ставит тот что больше.
 const compareCommentsLength = (a, b) => b.comments.length - a.comments.length;
 
+//Присваивает нужный фильтр по кнопке
 const getFilteredPictures = (photos) => {
 
   switch (currentFilter) {
-    case  buttonRandoms:
+    case  buttonRandomsElement:
       return getRandomPictures(photos);
 
-    case buttonDiscussed:
+    case buttonDiscussedElement:
       return photos.slice().sort(compareCommentsLength);
 
-    case buttonDefault:
+    case buttonDefaultElement:
       return photos;
 
     default: return photos;
@@ -41,7 +42,6 @@ const getFilteredPictures = (photos) => {
 
 //Прмменяет класс по нажатию на нужную кнопку, затем удалив все элементы фото генерирует новый фильтр.
 const filter = (evt, photos) => {
-
   const pictureElements = document.querySelectorAll('.picture');
   currentFilter.classList.remove('img-filters__button--active');
   currentFilter = evt.target;
@@ -55,7 +55,7 @@ const filter = (evt, photos) => {
 
 //Инициализирует фильтр с переданными аргументами
 const initFilter = (photos) => {
-  formFilterElement.addEventListener('click', debounce((evt) => filter(evt, photos)));
+  formFiltersElement.addEventListener('click', debounce((evt) => filter(evt, photos)));
 };
 
 export {initFilter};
