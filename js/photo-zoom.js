@@ -1,3 +1,4 @@
+//Значение увеличения и уменьшения шага
 const Scale = {
   STEP: 25,
   MIN: 25,
@@ -15,7 +16,7 @@ const scaleImgPreview = document.querySelector('.img-upload__preview img');
 const getScaleValue = () => parseInt(scaleValue.value, 10);
 
 //Уменьшает значение scaleValue
-const scaleDown = () => {
+const getScaleDown = () => {
   const {STEP, MIN} = Scale;
 
   scaleValue.value = `${getScaleValue() - STEP}%`;
@@ -29,7 +30,7 @@ const scaleDown = () => {
 };
 
 //Увеличивает значение scaleValue
-const scaleUp = () => {
+const getScaleUp = () => {
   const {STEP, MAX} = Scale;
 
   scaleValue.value = `${getScaleValue() + STEP}%` ;
@@ -42,7 +43,7 @@ const scaleUp = () => {
   }
 };
 
-const scaleDefault = () => {
+const getScaleDefault = () => {
   const {MAX} = Scale;
 
   scaleImgPreview.style.transform = `scale(${MAX / 100})`;
@@ -51,18 +52,18 @@ const scaleDefault = () => {
 };
 
 //Добавляет на кнопки обработчик что вызывает функцию
-const addScalingClick = () => {
-  scaleButtonDown.addEventListener('click', scaleDown);
-  scaleButtonUp.addEventListener('click', scaleUp);
+const onScalePlusClick = () => {
+  scaleButtonDown.addEventListener('click', getScaleDown);
+  scaleButtonUp.addEventListener('click', getScaleUp);
 };
 
 //Добавляет на кнопки обработчик что вызывает функцию
-const removeScalingClick = () => {
-  scaleButtonDown.removeEventListener('click', scaleDown);
-  scaleButtonUp.removeEventListener('click', scaleUp);
+const onScaleRemoveClick = () => {
+  scaleButtonDown.removeEventListener('click', getScaleDown);
+  scaleButtonUp.removeEventListener('click', getScaleUp);
   scaleImgPreview.removeAttribute = 'style';
 };
 
 
-export {addScalingClick, removeScalingClick, scaleDefault};
+export {onScalePlusClick, onScaleRemoveClick, getScaleDefault};
 

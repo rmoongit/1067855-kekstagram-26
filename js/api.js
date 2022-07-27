@@ -3,7 +3,7 @@ import { showMessageError } from './util.js';
 
 //Адрес получения наших объектов.
 const GET_URL =  'https://26.javascript.pages.academy/kekstagram/data';
-const POST_URL = 'https://26.javascript.pages.academy/kekstagram ';
+const POST_URL = 'https://26.javascript.pages.academy/kekstagram';
 
 
 //Получаем объекты с сервера по адресу:
@@ -28,12 +28,11 @@ const sendDataServer = (body, success, unblock, error) => {
         unblock();
 
       } else {
-        onErrorForm(error);
-        unblock();
+        onErrorForm(error, unblock);
       }
 
     })
-    .catch(() => onErrorForm(error));
+    .catch(() => onErrorForm(error, unblock));
 };
 
 export {getDataServer, sendDataServer};

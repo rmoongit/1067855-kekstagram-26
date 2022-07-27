@@ -1,5 +1,5 @@
 //(https://learn.javascript.ru/task/random-int-min-max);
-const randomInteger = (min, max) => {
+const getRandomInteger = (min, max) => {
   // случайное число от min до (max+1)
   const random = min + Math.random() * (max + 1 - min);
   if (min >= 0 && max > min) {
@@ -14,7 +14,7 @@ const getRandomArrayUniqueNumbers = (length) => {
     numbers[i] = i;
   }
   for (let i = length - 1; i > 0; i--) {
-    const j = randomInteger(0, i);
+    const j = getRandomInteger(0, i);
     const swap = numbers[j];
     numbers[j] = numbers[i];
     numbers[i] = swap;
@@ -36,7 +36,7 @@ checkStringLength('check string');
 // const getArrayRandomElement = (elements) => elements[randomInteger(0, elements.length - 1)];
 
 //Нажатие на кнопку "Escape".
-const escapeKey = (evt) => evt.key === 'Escape';
+const onClickEscapeKey = (evt) => evt.key === 'Escape';
 
 const stopListener = (inputArea, commentArea) => {
   inputArea.addEventListener('keydown', (evt) => {
@@ -96,8 +96,8 @@ const showMessageError = (message) => {
 
 export {
   getRandomArrayUniqueNumbers,
-  randomInteger,
-  escapeKey,
+  getRandomInteger,
+  onClickEscapeKey,
   checkStringLength,
   stopListener,
   showMessageError,

@@ -1,9 +1,9 @@
 const imgUploadPreview = document.querySelector('.img-upload__preview img');
-
 //effects
 const sliderValue = document.querySelector('.effect-level__value');
 const effectsRadio = document.querySelectorAll('.effects__radio');
 //slider
+const effectsBlock = document.querySelector('.img-upload__effect-level');
 const effectsBlockSlider = document.querySelector('.effect-level__slider');
 
 //Объект эффектов.
@@ -82,8 +82,8 @@ noUiSlider.create(effectsBlockSlider, {
   },
 });
 
-
-const intensiveEffect = () => {
+//Получить данные фильтра по value
+const getSliderEffect = () => {
   effectsBlockSlider.noUiSlider.on('update', () => {
     sliderValue.value = effectsBlockSlider.noUiSlider.get();
 
@@ -93,33 +93,33 @@ const intensiveEffect = () => {
 
       case 'effects__preview--chrome':
         imgUploadPreview.style.filter = `grayscale(${sliderValue.value})`;
-        effectsBlockSlider.classList.remove('visually-hidden');
+        effectsBlock.classList.remove('hidden');
         break;
 
       case 'effects__preview--sepia':
         imgUploadPreview.style.filter = `sepia(${sliderValue.value})`;
-        effectsBlockSlider.classList.remove('visually-hidden');
+        effectsBlock.classList.remove('hidden');
         break;
 
       case 'effects__preview--marvin':
         imgUploadPreview.style.filter = `invert(${sliderValue.value}%)`;
-        effectsBlockSlider.classList.remove('visually-hidden');
+        effectsBlock.classList.remove('hidden');
         break;
 
       case 'effects__preview--phobos':
         imgUploadPreview.style.filter = `blur(${sliderValue.value}px)`;
-        effectsBlockSlider.classList.remove('visually-hidden');
+        effectsBlock.classList.remove('hidden');
         break;
 
       case 'effects__preview--heat':
         imgUploadPreview.style.filter = `brightness(${sliderValue.value})`;
-        effectsBlockSlider.classList.remove('visually-hidden');
+        effectsBlock.classList.remove('hidden');
         break;
 
       default:
         imgUploadPreview.className = 'effects__preview--none';
         imgUploadPreview.style.filter = 'none';
-        effectsBlockSlider.classList.add('visually-hidden');
+        effectsBlock.classList.add('hidden');
     }
   });
 };
@@ -135,7 +135,7 @@ const onChangeEffect = () => {
       if(filter.matches('#effect-none') && filter.checked) {
         imgUploadPreview.className = 'effects__preview--none';
         imgUploadPreview.style.filter = 'none';
-        effectsBlockSlider.classList.add('visually-hidden');
+        effectsBlock.classList.add('hidden');
       }
 
       if(filter.matches('#effect-chrome')) {
@@ -198,7 +198,7 @@ const onChangeEffect = () => {
         });
       }
     });
-    intensiveEffect();
+    getSliderEffect();
   });
 };
 

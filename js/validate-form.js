@@ -1,15 +1,15 @@
 import { checkStringLength} from './util.js';
 import { sendDataServer } from './api.js';
-import { closePopup } from './edit-form.js';
+import { closeForm } from './edit-form.js';
 import { onSuccessForm, onErrorForm } from './success-error-mesages.js';
+
+const STRING_LENGTH = 20;
+const MAX_HASHTAGS = 5;
 
 const form = document.querySelector('.img-upload__form');
 const formButton = document.querySelector('.img-upload__submit');
 const hashtagInput = document.querySelector('.text__hashtags');
 const commentArea = document.querySelector('.text__description');
-
-const STRING_LENGTH = 20;
-const MAX_HASHTAGS = 5;
 
 //Регулярное выражение (начинается с # и включает в себя только буквы разного регистра и цифры, длиной до 20 символов.)
 const regular = /^#[A-Za-zA-Яа-яЁё0-9]{1,19}$/;
@@ -41,48 +41,44 @@ const setUserFormSubmit = () => {
     if (pristine.validate()) {
       blockSubmitButton();
       onSuccessForm();
-      sendDataServer(formData, closePopup, unblockSubmitButton, closePopup);
+      sendDataServer(formData, closeForm, unblockSubmitButton);
 
     } else {
-      onErrorForm(closePopup);
+      onErrorForm(unblockSubmitButton);
     }
   });
 };
 
 //Проверка на валидность регулярного выражения строки.
-const checkHashtagRegExp = (string) => regular.test(string);
+const checkHashtagRegExp = (value) => regular.test(value);
 
 //Проверка на валидность каждого елемента строки.
-const validHashtag = (string) => {
-  if (string === '') {
-    return true;
-  }
-  return string.split(' ').every(checkHashtagRegExp);
-};
-pristine.addValidator(hashtagInput, validHashtag, 'Хештег должен начинаться с # и не должен состоять из (#, @, $...), и не может содержать пробелы');
+const checkValidHashtag = (value) => value === '' || value.split(' ').every(checkHashtagRegExp);
+
+pristine.addValidator(hashtagInput, checkValidHashtag, 'Хештег должен начинаться с # и не должен состоять из (#, @, $...), и не может содержать пробелы');
 
 //Проверка на длину каждого элемента массива строк.
-const checkHashTagLength = (string) => {
-  const stringArr = string.split(' ');
+const checkHashTagLength = (value) => {
+  const hashTag = value.split(' ');
 
-  return stringArr.every((item) => item.length <= STRING_LENGTH);
+  return hashTag.every((item) => item.length <= STRING_LENGTH);
 };
 pristine.addValidator(hashtagInput, checkHashTagLength, `Максимальная длина одного хэш-тега ${STRING_LENGTH} символов`);
 
 //Принимает строку, приобразует в массив и проверяет больше ли длинна элемента MAX_HASHTAGS.
-const checkHashTagCount = (string) => {
-  const stringArr = string.split(' ');
-  if (stringArr.length <= MAX_HASHTAGS) {
-    return stringArr;
+const checkHashTagCount = (value) => {
+  const hashTag = value.split(' ');
+  if (hashTag.length <= MAX_HASHTAGS) {
+    return hashTag;
   }
   return false;
 };
 pristine.addValidator(hashtagInput, checkHashTagCount, 'Хештегов может быть не больше 5');
 
 //Проверка на схожий хештег каждого элемента массива строк.
-const checkSimilarHashTag = (string) => {
-  const stringArr = string.toLowerCase().split(' ');
-  return new Set(stringArr).size === stringArr.length;
+const checkSimilarHashTag = (value) => {
+  const hashTag = value.toLowerCase().split(' ');
+  return new Set(hashTag).size === hashTag.length;
 };
 pristine.addValidator(hashtagInput, checkSimilarHashTag, 'Один и тот же хэш-тег не может быть использован дважды;');
 
