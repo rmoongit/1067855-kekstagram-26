@@ -1,6 +1,6 @@
 import { checkStringLength} from './util.js';
 import { sendDataServer } from './api.js';
-import { closeForm } from './edit-form.js';
+import { onFormClose } from './edit-form.js';
 import { onSuccessForm, onErrorForm } from './success-error-mesages.js';
 
 const STRING_LENGTH = 20;
@@ -41,7 +41,7 @@ const setUserFormSubmit = () => {
     if (pristine.validate()) {
       blockSubmitButton();
       onSuccessForm();
-      sendDataServer(formData, closeForm, unblockSubmitButton);
+      sendDataServer(formData, onFormClose, unblockSubmitButton);
 
     } else {
       onErrorForm(unblockSubmitButton);

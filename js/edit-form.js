@@ -1,6 +1,6 @@
-import { onClickEscapeKey, stopListener } from './util.js';
+import { isEscapeKey, stopListener } from './util.js';
 import {formInputElement, formCommentElement,} from './validate-form.js';
-import {onScalePlusClick, onScaleRemoveClick, getScaleDefault} from './photo-zoom.js';
+import {addScaleListener, removeScaleListener, getScaleDefault} from './photo-zoom.js';
 import { onChangeEffect, imgUploadPreviewElement} from './slider.js';
 
 const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
@@ -18,19 +18,19 @@ const resetForm = () => {
   imgUploadPreviewElement.className = 'effects__preview--none';
 };
 
-const closeForm = () => {
+const onFormClose = () => {
   imgElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onFormClickEsc);
-  closeImgButtonElement.removeEventListener('click', closeForm);
+  closeImgButtonElement.removeEventListener('click', onFormClose);
   resetForm();
-  onScaleRemoveClick();
+  removeScaleListener();
 };
 
 function onFormClickEsc (evt) {
-  if(onClickEscapeKey(evt)) {
-    closeForm();
+  if(isEscapeKey(evt)) {
+    onFormClose();
   }
 }
 
@@ -45,17 +45,17 @@ const uploadPhotosModal = () => {
       imgElement.classList.remove('hidden');
       document.body.classList.add('modal-open');
 
-      closeImgButtonElement.addEventListener('click', closeForm);
+      closeImgButtonElement.addEventListener('click', onFormClose);
       document.addEventListener('keydown', onFormClickEsc);
     }
 
     stopListener(formInputElement, formCommentElement);
     getScaleDefault();
-    onScalePlusClick();
+    addScaleListener();
     onChangeEffect();
   });
 };
 
-export {uploadPhotosModal, closeForm, onFormClickEsc};
+export {uploadPhotosModal, onFormClose, onFormClickEsc};
 
 
