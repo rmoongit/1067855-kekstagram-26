@@ -16,7 +16,7 @@ const getDataServer = (data) => {
     .catch(() => showMessageError('Загрузка не удалась, обновите страницу!'));
 };
 
-const sendDataServer = (body, success, unblock, error) => {
+const sendDataServer = (body, success, unblock) => {
   fetch(POST_URL, {
     method: 'POST',
     body,
@@ -28,11 +28,11 @@ const sendDataServer = (body, success, unblock, error) => {
         unblock();
 
       } else {
-        onErrorForm(error, unblock);
+        onErrorForm(unblock);
       }
 
     })
-    .catch(() => onErrorForm(error, unblock));
+    .catch(() => onErrorForm(unblock));
 };
 
 export {getDataServer, sendDataServer};

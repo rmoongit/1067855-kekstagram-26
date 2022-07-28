@@ -41,7 +41,7 @@ const getFilteredPictures = (photos) => {
 };
 
 //Прмменяет класс по нажатию на нужную кнопку, затем удалив все элементы фото генерирует новый фильтр.
-const filter = (evt, photos) => {
+const onFilterClick = (evt, photos) => {
   const pictureElements = document.querySelectorAll('.picture');
   currentFilter.classList.remove('img-filters__button--active');
   currentFilter = evt.target;
@@ -55,7 +55,7 @@ const filter = (evt, photos) => {
 
 //Инициализирует фильтр с переданными аргументами
 const initFilter = (photos) => {
-  formFiltersElement.addEventListener('click', debounce((evt) => filter(evt, photos)));
+  formFiltersElement.addEventListener('click', debounce((evt) => onFilterClick(evt, photos)));
 };
 
 export {initFilter};

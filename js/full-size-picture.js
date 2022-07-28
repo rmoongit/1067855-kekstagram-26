@@ -1,5 +1,5 @@
 
-import { onClickEscapeKey } from './util.js';
+import { isEscapeKey } from './util.js';
 
 const MAX_COMMENTS = 5;
 
@@ -12,18 +12,18 @@ const buttonLoadElement = document.querySelector('.comments-loader');
 let onCommentsClick = null;
 
 //Прячет модальное окно и убирает фиксацию с body, так же удаляет слушатели.
-const closeBigPhoto = () => {
+const onBigPhotoClose = () => {
   bigPictureElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onBigPhotoClickEsc);
-  closeButtonElement.removeEventListener('click', closeBigPhoto);
+  closeButtonElement.removeEventListener('click', onBigPhotoClose);
   buttonLoadElement.removeEventListener('click', onCommentsClick);
 };
 
 function onBigPhotoClickEsc (evt) {
-  if(onClickEscapeKey(evt)) {
+  if(isEscapeKey(evt)) {
     evt.preventDefault();
-    closeBigPhoto();
+    onBigPhotoClose();
   }
 }
 
@@ -101,7 +101,7 @@ const showBigPicture = (data) => {
   bigPictureElement.focus();
 
   document.addEventListener('keydown', onBigPhotoClickEsc);
-  closeButtonElement.addEventListener('click', closeBigPhoto);
+  closeButtonElement.addEventListener('click', onBigPhotoClose);
 
   getNewRenderComments(comments);
 };

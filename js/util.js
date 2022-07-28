@@ -32,11 +32,8 @@ const checkStringLength = (string, lengthNumber = 140) => {
 };
 checkStringLength('check string');
 
-//Генерирует случайный элемент массива.
-// const getArrayRandomElement = (elements) => elements[randomInteger(0, elements.length - 1)];
-
 //Нажатие на кнопку "Escape".
-const onClickEscapeKey = (evt) => evt.key === 'Escape';
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
 const stopListener = (inputArea, commentArea) => {
   inputArea.addEventListener('keydown', (evt) => {
@@ -97,7 +94,7 @@ const showMessageError = (message) => {
 export {
   getRandomArrayUniqueNumbers,
   getRandomInteger,
-  onClickEscapeKey,
+  isEscapeKey,
   checkStringLength,
   stopListener,
   showMessageError,
